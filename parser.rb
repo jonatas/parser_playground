@@ -1,3 +1,4 @@
+
 class Parser
   TOKENIZER = /\w+|\(|\)|\{|\}|\d+\.?\d+?|[\+\-\*\/"']/
   def initialize expression
@@ -31,3 +32,18 @@ class Parser
     list
   end
 end
+
+parse = Parser.new ARGV.shift || <<~EXP
+  (+ (1 2.0) (/ 10  8 )
+      (*
+        {
+          use { deep {hashes (with arrays) } }
+          (anything can) ("be used" {2 compile})
+          ok thanks
+        })
+   {\"put dashes here\" 'put underscore here'}
+ )
+EXP
+
+require 'pp'
+pp parse.parse
