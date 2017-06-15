@@ -3,9 +3,28 @@
 I like to play with parsers then I decide to keep my small examples and
 prototypes in a single repo instead of using gists.
 
-## Simple parser
+## [parser.rb]()
 
-## Expression
+It accepts deep arrays with `()` or transfom arguments into a hash with `{}`.
+
+$ ruby parser.rb '(+ 2 3 6 (- 2 1) (/ 2 3))'
+
+```ruby
+[:+, 2, 3, 6, [:-, 2, 1], [:/, 2, 3]]
+```
+$ ruby parser.rb '(an (deep (array {with hash})))'
+
+```ruby
+[:an, [:deep, [:array, {:with=>:hash}]]]
+```
+
+$ ruby parser.rb '(an (deep (array {with hash} 2 (+ 3 (/ 5 4)))))'
+
+```ruby
+[:an, [:deep, [:array, {:with=>:hash}, 2, [:+, 3, [:/, 5, 4]]]]]
+```
+
+## [expression.rb]()
 
 $ ruby expression.rb '{any of this guys}
 
