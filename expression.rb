@@ -39,5 +39,5 @@ expression = <<~EXP
     ( ( {int float} _) ))
 EXP
 
-pp FastExpression.new.parse(expression)
+pp FastExpression.new.parse(ARGV.shift || expression)
 
