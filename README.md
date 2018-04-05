@@ -72,3 +72,32 @@ $ ruby sql_parser.rb
  :where=>{:sym=>:age},
  :token=>{:int=>30}}
 ```
+
+## [rb_js_parser.rb](rb_js_parser.rb)
+
+Learning from @garibenhardt [destroyallsoftware](https://www.destroyallsoftware.com/screencasts/catalog/a-compiler-from-scratch) series:
+
+```ruby
+tokens = Tokenizer.new("def a(x,y,z)\nb(b,2,d(2))\nend").parse
+
+puts "tokens: #{ tokens.inspect }"
+
+tree = Parser.new(tokens).parse
+
+puts  "tree", tree.map(&:to_s).join("\n")
+output = Generator.new.generate(tree)
+puts output
+```
+
+Will output:
+
+```
+tokens: [[:def, "def"], [:identifier, "a"], [:oparens, "("], [:identifier, "x"], [:comma, ","], [:identifier, "y"], [:comma, ","], [:identifier, "z"], [:cparens, ")"], [:identifier, "b"], [:oparens, "("], [:identifier, "b"], [:comma, ","], [:int, "2"], [:comma, ","], [:identifier, "d"], [:oparens, "("], [:int, "2"], [:cparens, ")"], [:cparens, ")"], [:end, "end"]]
+tree
+a
+["x", "y", "z"]
+[#<struct CallNode method_name="b", arguments=[#<struct VarNode identifier="b">, #<struct IntNode value=2>, #<struct CallNode method_name="d", arguments=[#<struct IntNode value=2>]>]>]
+function a(x,y,z){
+  return b(b,2,d(2))
+}
+```
